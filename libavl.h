@@ -16,6 +16,9 @@ typedef struct no no_t;
     Retorna NULL se falhar. */
 no_t *criaNo(int c);
 
+/*  Destrói a árvore, desalocando toda a memória. */
+void destroiArvore(no_t *n);
+
 /*  Busca o nó com chave 'c' na árvore.
 
     Retorna um ponteiro para o nó se com o valor 'c'.

@@ -8,13 +8,17 @@ int main (int argc, char **argv){
     t = NULL;
 
     scanf("%d", &chave);
+    t = criaNo(chave);
+    
     while (chave){
-        insereNo(t, chave);
-
         imprimeArvore(t);
 
         scanf("%d", &chave);
+
+        insereNo(t, chave);
     }
+
+    destroiArvore(t);
 
     return 0;
 }

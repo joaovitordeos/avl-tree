@@ -56,17 +56,20 @@ no_t *insereNo(no_t *n, int c){
     return n;
 }
 
+/*  Destrói a árvore, desalocando toda a memória. */
+void destroiArvore(no_t *n){
+    if (n != NULL){
+        destroiArvore(n->esq);
+        destroiArvore(n->dir);
+        free(n);
+    }   
+}
+
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n){
-    if (n == NULL) return ;
-
-    if (n->esq != NULL){
+    if (n != NULL){
         imprimeArvore(n->esq);
         printf("%d ", n->chave);
-    }
-    if (n->dir != NULL){
         imprimeArvore(n->dir);
-        printf("%d ", n->chave);
     }
-    return;
 }
