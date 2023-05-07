@@ -116,8 +116,8 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
         else{
             a = antecessorNo(n);
             trocaNoPai(a, a->esq);
-            a = n->esq;
-            a = n->dir;
+            a->esq = n->esq;
+            a->dir = n->dir;
             trocaNoPai(n, a);
             
             if (n == noRaiz) novaRaiz = a;

@@ -18,7 +18,7 @@ int main (int argc, char **argv){
         scanf("%c %d", &op, &chave);
 
         if (op == 'i')  insereNo(raiz, chave);
-        if (op == 'r')  removeNo(buscaNo(raiz, chave), raiz);
+        if (op == 'r')  raiz = removeNo(buscaNo(raiz, chave), raiz);
     }
 
     destroiArvore(raiz);
