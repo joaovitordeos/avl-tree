@@ -1,3 +1,6 @@
+/* TAD - Árvore AVL
+ * Autor: João Vitor de Oliveira Souza
+ */
 #ifndef __LIBAVL__
 #define __LIBAVL__
 

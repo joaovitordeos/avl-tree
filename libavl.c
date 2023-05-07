@@ -1,3 +1,6 @@
+/* TAD - Árvore AVL
+ * Autor: João Vitor de Oliveira Souza
+ */
 #include <stdlib.h>
 #include <stdio.h>
 
