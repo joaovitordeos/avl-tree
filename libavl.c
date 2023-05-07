@@ -66,6 +66,47 @@ void destroiArvore(no_t *n){
         destroiArvore(n->dir);
         free(n);
     }   
+}   
+
+no_t *antecessorNo(no_t *n){
+    if (n == NULL) return n;
+    
+    return antecessorNo(n->dir);
+}
+
+void trocaNoPai(no_t *n, no_t *novoNo){
+    if (n->pai != NULL){
+        if (n->pai->dir == n)
+            n->pai->dir = novoNo;
+        else
+            n->pai->esq = novoNo;
+        
+        if (novoNo != NULL)
+            novoNo->pai = n->pai;
+    }
+}
+
+/*  Remove o nó com valor 'c' da árvore. 
+    
+    Retorna o nó que ficou no lugar do nó removido. */
+no_t *removeNo(no_t *n, no_t *noRaiz){
+    no_t *antec, *novaRaiz;
+
+    novaRaiz = noRaiz;
+
+    if (n->dir == NULL){            
+        trocaNoPai(n, n->dir);
+        free(n);
+    }
+    else{
+        if (n->esq == NULL){
+            trocaNoPai(n, n->esq);
+            free(n);
+        }
+        else{
+            antec = antecessorNo(n->esq);
+        }
+    }
 }
 
 /*  Imprime a travessia em ordem crescente. */

@@ -35,6 +35,11 @@ no_t *buscaNo(no_t *n, int c);
     Obs: Se o a chave já existe o retorno será NULL. */
 no_t *insereNo(no_t *n, int c);
 
+/*  Remove o nó com valor 'c' da árvore. 
+    
+    Retorna o nó que ficou no lugar do nó removido. */
+no_t *removeNo(no_t *n, no_t *nRaiz)
+
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n);
 
