@@ -68,10 +68,20 @@ void destroiArvore(no_t *n){
     }   
 }   
 
-no_t *antecessorNo(no_t *n){
-    if (n == NULL) return n;
+/*  Busca o maior nó da árvore/sub árvore. 
+
+    Retorna o ponteiro para o nó com maior valor. */
+no_t *maiorNo(no_t *n){
+    if (n->dir == NULL) return n;
     
-    return antecessorNo(n->dir);
+    return maiorNo(n->dir);
+}
+
+/*  Busca o antecessor do nó 'n' da árvore/sub árvore. 
+
+    Retorna o ponteiro para o nó antecessor. */
+no_t *antecessorNo(no_t *n){
+    return maiorNo(n->esq);
 }
 
 void trocaNoPai(no_t *n, no_t *novoNo){
@@ -90,7 +100,7 @@ void trocaNoPai(no_t *n, no_t *novoNo){
     
     Retorna o nó que ficou no lugar do nó removido. */
 no_t *removeNo(no_t *n, no_t *noRaiz){
-    no_t *antec, *novaRaiz;
+    no_t *a, *novaRaiz;
 
     novaRaiz = noRaiz;
 
@@ -104,9 +114,17 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
             free(n);
         }
         else{
-            antec = antecessorNo(n->esq);
+            a = antecessorNo(n);
+            trocaNoPai(a, a->esq);
+            a = n->esq;
+            a = n->dir;
+            trocaNoPai(n, a);
+            
+            if (n == noRaiz) novaRaiz = a;
+            free(n);
         }
     }
+    return novaRaiz;
 }
 
 /*  Imprime a travessia em ordem crescente. */

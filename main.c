@@ -2,23 +2,26 @@
 #include "libavl.h"
 
 int main (int argc, char **argv){
-    no_t *t;
     int chave;
+    char op;
+    no_t *raiz;
 
-    t = NULL;
+    raiz = NULL;
 
-    scanf("%d", &chave);
-    t = criaNo(chave);
+    scanf("%c %d", &op, &chave);
+    raiz = criaNo(chave);
     
     while (chave){
-        imprimeArvore(t);
+        imprimeArvore(raiz);
+        printf("\n");
 
-        scanf("%d", &chave);
+        scanf("%c %d", &op, &chave);
 
-        insereNo(t, chave);
+        if (op == 'i')  insereNo(raiz, chave);
+        if (op == 'r')  removeNo(buscaNo(raiz, chave), raiz);
     }
 
-    destroiArvore(t);
+    destroiArvore(raiz);
 
     return 0;
 }
