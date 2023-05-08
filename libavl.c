@@ -85,6 +85,8 @@ no_t *antecessorNo(no_t *n){
     return maiorNo(n->esq);
 }
 
+/*  Essa função troca o pai dos filhos do nó 'n' para
+    o novo nó, caso esse 'n' não seja a raiz. */
 void trocaNoPai(no_t *n, no_t *novoNo){
     if (n->pai != NULL){
         if (n->pai->dir == n)
@@ -99,41 +101,54 @@ void trocaNoPai(no_t *n, no_t *novoNo){
 
 /*  Remove o nó com valor 'c' da árvore. 
     
-    Retorna o ponteiro para o nó raiz. */
+    Retorna o ponteiro para o nó raiz.
+    Retorna NULL se a árvore ficar vazia. */
 no_t *removeNo(no_t *n, no_t *noRaiz){
     no_t *a, *novaRaiz;
 
     novaRaiz = noRaiz;
 
-    if ((n->dir == NULL)){
-        if (n != noRaiz)
+    if ((n == noRaiz) && (n->esq == NULL) && (n->dir == NULL)){  // Se o nó a ser removido é único retorna NULL.
+        free(n);
+        return NULL;
+    }
+
+    if ((n->dir == NULL)){               // Se o nó não tiver o filho direito.
+        if (n != noRaiz)                  
             trocaNoPai(n, n->esq);
-        else {
+        else {                           // Se for a raiz o nó esq se torna a nova raiz.
             novaRaiz = n->esq;
             novaRaiz->pai = NULL;
         }
     } 
     else {
-        if ((n->esq == NULL)){
+        if ((n->esq == NULL)){           // Se o nó não tiver o filho esquerdo.
             if (n != noRaiz)
                 trocaNoPai(n, n->dir);
-            else {
+            else {                       // Se for a raiz o nó dir se torna a nova raiz.
                 novaRaiz = n->dir;
                 novaRaiz->pai = NULL;
             }
         } 
         else {
             a = antecessorNo(n);
-            trocaNoPai(a, a->esq);
-            a->esq = n->esq;
+            trocaNoPai(a, a->esq);       // Troca o nó antecessor de 'n' pelo seu filho esq.
+
+            a->esq = n->esq;             // Atribui os filhos de 'n' também ao nó 'a'.
             a->dir = n->dir;
-            trocaNoPai(n, a);
-            if (n == noRaiz){
+
+            trocaNoPai(n, a);            // Troca o nó 'n' com seu antecessor 'a' se não for a raiz.
+
+            if (a->esq != NULL) a->esq->pai = a;             // Se houver filho esq ele terá como pai o nó 'a'.
+            if (a->dir != NULL) a->dir->pai = a;             // Se houver filho dir ele terá como pai o nó 'a'.
+
+            if (n == noRaiz){            // Se 'n' for a raiz, então 'a' se torna a nova raiz.
                 novaRaiz = a;
                 novaRaiz->pai = NULL; 
             }
         }
     }
+
     free(n);
     return novaRaiz;
 }

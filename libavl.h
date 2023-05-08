@@ -35,13 +35,25 @@ no_t *buscaNo(no_t *n, int c);
     Obs: Se o a chave já existe o retorno será NULL. */
 no_t *insereNo(no_t *n, int c);
 
+/*  Busca o maior nó da árvore/sub árvore. 
+
+    Retorna o ponteiro para o nó com maior valor. */
+no_t *maiorNo(no_t *n);
+
+/*  Busca o antecessor do nó 'n' da árvore/sub árvore. 
+
+    Retorna o ponteiro para o nó antecessor. */
+no_t *antecessorNo(no_t *n);
+
 /*  Remove o nó com valor 'c' da árvore. 
-    
+
     Retorna o ponteiro para o nó raiz. */
 no_t *removeNo(no_t *n, no_t *nRaiz);
 
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n);
+
+
 
 
 #endif
