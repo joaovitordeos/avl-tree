@@ -54,7 +54,8 @@ no_t *insereNo(no_t *n, int c){
     else if (c > n->chave){
         n->dir = insereNo(n->dir, c);
         n->dir->pai = n;
-    }    
+    }
+
 
     return n;
 }
@@ -98,19 +99,19 @@ void trocaNoPai(no_t *n, no_t *novoNo){
 
 /*  Remove o nó com valor 'c' da árvore. 
     
-    Retorna o nó que ficou no lugar do nó removido. */
+    Retorna o ponteiro para o nó raiz. */
 no_t *removeNo(no_t *n, no_t *noRaiz){
     no_t *a, *novaRaiz;
 
     novaRaiz = noRaiz;
 
     if (n->dir == NULL){            
-        trocaNoPai(n, n->dir);
+        trocaNoPai(n, n->esq);
         free(n);
     }
     else{
         if (n->esq == NULL){
-            trocaNoPai(n, n->esq);
+            trocaNoPai(n, n->dir);
             free(n);
         }
         else{
