@@ -105,34 +105,19 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
 
     novaRaiz = noRaiz;
 
-    if (n->dir == NULL){            
+    if ((n->dir == NULL) && (n != noRaiz)){
         trocaNoPai(n, n->esq);
         free(n);
-    }
-    else{
-        if (n->esq == NULL){
-            trocaNoPai(n, n->dir);
-            free(n);
-        }
-        else{
-            a = antecessorNo(n);
-            trocaNoPai(a, a->esq);
-            a->esq = n->esq;
-            a->dir = n->dir;
-            trocaNoPai(n, a);
-            
-            if (n == noRaiz) novaRaiz = a;
-            free(n);
-        }
-    }
-    return novaRaiz;
+    } 
+    else 
 }
 
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n){
     if (n != NULL){
         imprimeArvore(n->esq);
-        printf("%d ", n->chave);
+        if (n->pai != NULL) printf("No: %d, Pai: %d\n", n->chave, n->pai->chave);
+        else printf("No: %d, Pai: N/A\n", n->chave);
         imprimeArvore(n->dir);
     }
 }
