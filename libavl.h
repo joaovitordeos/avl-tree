@@ -53,7 +53,8 @@ no_t *removeNo(no_t *n, no_t *nRaiz);
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n);
 
-
+/*  Insere o nó na árvore AVL. */
+no_t *insereNoAvl(no_t *n, int c);
 
 
 #endif

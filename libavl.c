@@ -157,8 +157,24 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
 void imprimeArvore(no_t *n){
     if (n != NULL){
         imprimeArvore(n->esq);
-        if (n->pai != NULL) printf("No: %d, Pai: %d\n", n->chave, n->pai->chave);
-        else printf("No: %d, Pai: N/A\n", n->chave);
+        if (n->pai != NULL) printf("No: %d, Pai: %d, Altura: %d\n", n->chave, n->pai->chave, n->altura);
+        else printf("No: %d, Pai: N/A, Altura: %d\n", n->chave, n->altura);
         imprimeArvore(n->dir);
     }
+}
+
+/*  Insere o nó na árvore AVL. */
+no_t *insereNoAvl(no_t *n, int c){
+    no_t *nIn, *pai;
+    nIn = insereNo(n, c);
+    
+    nIn = buscaNo(n, c);
+    pai = nIn->pai;
+    while (pai != NULL){
+        pai->altura += 1;
+        pai = pai->pai;
+    }
+    
+
+    return n;
 }
