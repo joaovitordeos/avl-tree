@@ -105,11 +105,37 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
 
     novaRaiz = noRaiz;
 
-    if ((n->dir == NULL) && (n != noRaiz)){
-        trocaNoPai(n, n->esq);
-        free(n);
+    if ((n->dir == NULL)){
+        if (n != noRaiz)
+            trocaNoPai(n, n->esq);
+        else {
+            novaRaiz = n->esq;
+            novaRaiz->pai = NULL;
+        }
     } 
-    else 
+    else {
+        if ((n->esq == NULL)){
+            if (n != noRaiz)
+                trocaNoPai(n, n->dir);
+            else {
+                novaRaiz = n->dir;
+                novaRaiz->pai = NULL;
+            }
+        } 
+        else {
+            a = antecessorNo(n);
+            trocaNoPai(a, a->esq);
+            a->esq = n->esq;
+            a->dir = n->dir;
+            trocaNoPai(n, a);
+            if (n == noRaiz){
+                novaRaiz = a;
+                novaRaiz->pai = NULL; 
+            }
+        }
+    }
+    free(n);
+    return novaRaiz;
 }
 
 /*  Imprime a travessia em ordem crescente. */
