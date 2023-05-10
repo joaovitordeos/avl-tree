@@ -307,13 +307,16 @@ no_t *balanceiaAteRaiz(no_t *n, no_t *raiz){
 
     proxPai = n->pai;
 
-    while (proxPai != raiz ){
+    while (proxPai != raiz || proxPai == NULL){
         corrigeAltura(raiz);
         proxPai = balanceiaArvore(proxPai);
 
         proxPai = proxPai->pai;
     }
 
+    proxPai = balanceiaArvore(proxPai);
+
+    corrigeAltura(proxPai);
 
     return proxPai;
 }
@@ -325,45 +328,47 @@ no_t *insereNoAvl(no_t *n, int c){
 
     n = balanceiaAteRaiz(buscaNo(n, c), n);
 
-    n = balanceiaArvore(n);
-
-    corrigeAltura(n);
-
     return n;
 }
 
 /* Remove o nó da árvore AVL, mantendo as propriedades da árvore. */
 no_t *removeNoAvl(no_t *n, no_t *noRaiz){
-    no_t *novaRaiz, *a, *paiN;
+    no_t *novaRaiz, *aux;
 
-    if (n == NULL) 
-        return noRaiz;
+    novaRaiz = noRaiz;
+    
+    if (n == NULL) return novaRaiz;
+    
 
-    paiN = n->pai;
-
-
-
-    if (paiN != NULL){
-        novaRaiz = removeNo(n, noRaiz);
-
-        novaRaiz = balanceiaAteRaiz(paiN, novaRaiz);
-
-        novaRaiz = balanceiaArvore(novaRaiz);
-
-        corrigeAltura(novaRaiz);
-    }
-    else {
-        a = antecessorNo(n);
+    if ((n->dir == NULL) && (n->esq == NULL)){
+        aux = n->pai;
         
-        paiN = a->esq;
+        novaRaiz = removeNo(n, novaRaiz);
 
-        novaRaiz = removeNo(n, noRaiz);
+        novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
+    }
+    else{ 
+        if((n->dir != NULL) && (n->esq == NULL)){
+            aux = n->dir;
 
-        novaRaiz = balanceiaAteRaiz(paiN, novaRaiz);
+            novaRaiz = removeNo(n, novaRaiz);
 
-        novaRaiz = balanceiaArvore(novaRaiz);
+            novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
+        }
+        else if((n->dir == NULL) && (n->esq != NULL)){
+            aux = n->esq;
 
-        corrigeAltura(novaRaiz);
+            novaRaiz = removeNo(n, novaRaiz);
+
+            novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
+        }
+        else {
+            aux = antecessorNo(n)->pai;
+            
+            novaRaiz = removeNo(n, novaRaiz);
+
+            novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
+        }
     }
     return novaRaiz;
 }
