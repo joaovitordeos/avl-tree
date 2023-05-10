@@ -30,9 +30,7 @@ no_t *buscaNo(no_t *n, int c);
 
 /*  Inclui um nó com chave 'c' na árvore.
     
-    Retorna o ponteiro para onde o nó foi inserido.
-
-    Obs: Se o a chave já existe o retorno será NULL. */
+    Retorna no final o ponteiro para a árvore. */
 no_t *insereNo(no_t *n, int c);
 
 /*  Busca o maior nó da árvore/sub árvore. 

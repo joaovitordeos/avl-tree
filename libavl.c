@@ -46,9 +46,7 @@ no_t *buscaNo(no_t *n, int c){
 
 /*  Inclui um nó com chave 'c' na árvore.
     
-    Retorna o ponteiro para onde o nó foi inserido.
-
-    Obs: Se o a chave já existe o retorno será NULL. */
+    Retorna no final o ponteiro para a árvore. */
 no_t *insereNo(no_t *n, int c){
     if (n == NULL) return criaNo(c);
 
@@ -60,7 +58,6 @@ no_t *insereNo(no_t *n, int c){
         n->dir = insereNo(n->dir, c);
         n->dir->pai = n;
     }
-
 
     return n;
 }
@@ -307,8 +304,9 @@ no_t *balanceiaAteRaiz(no_t *n, no_t *raiz){
 
     proxPai = n->pai;
 
-    while (proxPai != raiz || proxPai == NULL){
+    while ((proxPai != raiz)){
         corrigeAltura(raiz);
+
         proxPai = balanceiaArvore(proxPai);
 
         proxPai = proxPai->pai;
@@ -345,6 +343,8 @@ no_t *removeNoAvl(no_t *n, no_t *noRaiz){
         
         novaRaiz = removeNo(n, novaRaiz);
 
+        corrigeAltura(novaRaiz);
+
         novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
     }
     else{ 
@@ -353,6 +353,8 @@ no_t *removeNoAvl(no_t *n, no_t *noRaiz){
 
             novaRaiz = removeNo(n, novaRaiz);
 
+            corrigeAltura(novaRaiz);
+
             novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
         }
         else if((n->dir == NULL) && (n->esq != NULL)){
@@ -360,12 +362,15 @@ no_t *removeNoAvl(no_t *n, no_t *noRaiz){
 
             novaRaiz = removeNo(n, novaRaiz);
 
+            corrigeAltura(novaRaiz);
+
             novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
         }
         else {
             aux = antecessorNo(n)->pai;
-            
             novaRaiz = removeNo(n, novaRaiz);
+
+            corrigeAltura(novaRaiz);
 
             novaRaiz = balanceiaAteRaiz(aux, novaRaiz);
         }
