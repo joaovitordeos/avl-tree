@@ -135,7 +135,7 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
                 novaRaiz->pai = NULL;
             }
         } 
-        else {
+        else {                           // Se o nó possuir os dois filhos.
             a = antecessorNo(n);
             trocaNoPai(a, a->esq);       // Troca o nó antecessor de 'n' pelo seu filho esq.
 
@@ -321,11 +321,48 @@ no_t *insereNoAvl(no_t *n, int c){
 
     insereNo(n, c);
 
-    corrigeAltura(n);
-
     n = balanceiaAteRaiz(buscaNo(n, c), n);
 
     n = balanceiaArvore(n);
 
+    corrigeAltura(n);
+
     return n;
+}
+
+/* Remove o nó da árvore AVL, mantendo as propriedades da árvore. */
+no_t *removeNoAvl(no_t *n, no_t *raiz){
+    no_t *a;
+
+    if (n->dir == NULL ){
+        a = n->esq;
+
+        raiz = removeNo(n, raiz);
+
+        if (a != NULL)
+            raiz = balanceiaAteRaiz(a, raiz);
+
+        raiz = balanceiaArvore(raiz);
+
+        corrigeAltura(raiz);
+    }
+    else {
+        if (n->esq == NULL){
+            a = n->dir;
+
+            raiz = removeNo(n, raiz);
+    
+            if (a != raiz)
+                raiz = balanceiaAteRaiz(a, raiz);
+
+            raiz = balanceiaArvore(raiz);
+
+            corrigeAltura(raiz);
+        }
+        else {
+            a = antecessorNo(n);
+        }
+    }
+
+    return raiz;
 }
