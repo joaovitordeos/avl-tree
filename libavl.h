@@ -55,12 +55,12 @@ no_t *removeNo(no_t *n, no_t *noRaiz);
 
 /*  Essa função realiza a rotação à esquerda.
     
-    Retorna um ponteiro para o nó que foi trocado. */
+    Retorna um ponteiro para o nó que foi trocado (subárvore). */
 no_t *rotacaoEsq(no_t *n);
 
 /*  Essa função realiza a rotação à direita.
 
-    Retorna um ponteiro para o nó que foi trocado. */
+    Retorna um ponteiro para o nó que foi trocado (subárvore). */
 no_t *rotacaoDir(no_t *n);
 
 /*  Essa função corrige a altura dos nós de uma árvore recursivamente. */

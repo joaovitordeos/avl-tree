@@ -162,20 +162,23 @@ no_t *rotacaoEsq(no_t *n){
     if (n == NULL || n->dir == NULL) return n;  // Verifica se os nós envolvidos não são nulos. 
 
     if (n->pai != NULL) {         // Se o pai não é nulo (não é a raiz).
-        if (n == n->pai->esq) {   // Se for o filho esquerdo, 
-            n->pai->esq = n->dir;
+        if (n == n->pai->esq) {    
+            n->pai->esq = n->dir; // Se for o filho esquerdo, o pai recebe em seu lugar o filho direito do nó 'n'.
         } else {
-            n->pai->dir = n->dir;
+            n->pai->dir = n->dir; // Se for o filho direito, o pai recebe em seu lugar o filho direito do nó 'n'.
         }
     }
 
+    // Trocas de ponteiros para a rotação.
     t = n->dir;
     n->dir = t->esq;
     t->esq = n;
 
+    // Troca de pais;
     t->pai = n->pai;
     n->pai = t;
 
+    // Se possuir filho direitor, ele passa a apontar para 'n' como pai
     if (n->dir != NULL) n->dir->pai = n;
 
     return t;
@@ -183,23 +186,28 @@ no_t *rotacaoEsq(no_t *n){
 
 /* Essa função realiza a rotação à direita. */
 no_t *rotacaoDir(no_t *n){
-    if (n == NULL || n->esq == NULL) return n;
+    no_t *t;
 
-    if (n->pai != NULL) {
+    if (n == NULL || n->esq == NULL) return n; // Verifica se os nós envolvidos não são nulos.
+
+    if (n->pai != NULL) {           // Se o pai não é nulo (não é a raiz).
         if (n == n->pai->esq) {
-            n->pai->esq = n->esq;
+            n->pai->esq = n->esq;   // Se for o filho esquerdo, o pai recebe em seu lugar o filho esquerdo do nó 'n'.
         } else {
-            n->pai->dir = n->esq;
+            n->pai->dir = n->esq;   // Se for o filho direito, o pai recebe em seu lugar o filho esquerdo do nó 'n'.
         }
     }
 
-    no_t *t = n->esq;
+    // Trocas de ponteiros para a rotação.
+    t = n->esq;
     n->esq = t->dir;
     t->dir = n;
 
+    // Troca de pais
     t->pai = n->pai;
     n->pai = t;
 
+    // Se possuir filho esquerdo, ele passa a apontar para 'n' como pai
     if (n->esq != NULL) n->esq->pai = n;
 
     return t;
