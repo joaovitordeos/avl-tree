@@ -6,6 +6,9 @@
 
 #include "libavl.h"
 
+#define ROT_ESQ 1
+#define ROT_DIR 2
+
 #define max(x, y) (x>y?x:y) 
 
 /*  Cria uma struct no_t com o valor chave 'c'.
@@ -155,6 +158,34 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
     return novaRaiz;
 }
 
+/*  Essa função realiza a rotação à esquerda. */
+no_t *rotacaoEsq(no_t *n){
+    no_t *t;
+    
+    t = n->dir;
+    n->dir = t->esq;
+    t->pai = n->pai;
+    n->pai = t;
+
+    if (t->esq != NULL) t->esq->pai = n;
+
+    return t;
+}
+
+/* Essa função realiza a rotação à direita. */
+no_t *rotacaoDir(no_t *n){
+    no_t *t;
+
+    t = n->esq;
+    n->esq = t->dir;
+    t->pai = n->pai;
+    n->pai = t;
+
+    if (t->esq != NULL) t->esq->pai = n;
+
+    return t;
+}
+
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n, int nivel){
     if (n != NULL){
@@ -179,12 +210,79 @@ int corrigeAltura(no_t *n){
     return n->altura;
 }
 
+/*  Essa função verifica qual lado da árvore está desbalanceado.
+
+    Retorna o valor da diferença entre o a altura dos nós. */
+int verificaBalanceamento(no_t *n){
+    if ((n->dir != NULL) && (n->esq != NULL))
+        return (n->dir->altura - n->esq->altura);
+
+    if (n->dir == NULL)
+        return (n->dir->altura);
+
+    return (-1 * n->esq->altura);
+}
+
+/*  Essa função verifica qual vai ser o tipo de rotação.
+    blc é o parâmetro que indica qual lado da árvore está 
+    desbalanceado. 
+
+    Retorna 1 para rotação simples à esquerda.
+    Retorna 2 para rotação simples à direita.
+    Retorna 0 se não for nenhuma dessas. */
+int verificaRotacao(no_t *n, int blc){
+    if (blc > 1){
+        // Se o filho direito da raiz possuir o nó esquerdo nulo, ou o lado direito estiver mais alto
+        // Retorna a rotação à esquerda.
+        if ((n->dir->esq == NULL) || ((n->dir->dir != NULL) && (n->dir->dir->altura > n->dir->esq->altura) ))
+            return ROT_ESQ;
+    }
+    if (blc < -1){
+        // Se o filho esquerdo da raiz possuir o nó direito nulo, ou o lado esquerdo estiver mais alto
+        // Retorna a rotação à direita.
+        if ((n->esq->dir == NULL) || ((n->esq->esq != NULL) && (n->esq->esq->altura > n->esq->dir->altura)))
+            return ROT_DIR; 
+    }
+    return 0;
+}
+
+
+/*  Balanceia a árvore. */
+no_t *balanceiaArvore(no_t *n){
+    int blc;
+
+    blc = verificaBalanceamento(n);
+
+    if (blc > 1){
+        if (verificaRotacao(n, blc) == ROT_ESQ){
+            n = rotacaoEsq(n);
+        }
+        else{
+            n->dir = rotacaoDir(n->dir);
+            n = rotacaoEsq(n);
+        }
+    }
+
+    else if (blc < -1){
+        if (verificaRotacao(n, blc) == ROT_DIR){
+            n = rotacaoDir(n);
+        }
+        else{
+            n->esq = rotacaoEsq(n->esq);
+            n = rotacaoDir(n);
+        }
+    }
+    
+    return n;
+}
+
 /*  Insere o nó na árvore AVL. */
 no_t *insereNoAvl(no_t *n, int c){
     insereNo(n, c);
 
     corrigeAltura(n);
     
+    balanceiaArvore(n);
 
     return n;
 }
