@@ -43,13 +43,54 @@ no_t *maiorNo(no_t *n);
     Retorna o ponteiro para o nó antecessor. */
 no_t *antecessorNo(no_t *n);
 
+/*  Essa função troca o pai dos filhos do nó 'n' para
+    o novo nó, caso esse 'n' não seja a raiz. */
+void trocaNoPai(no_t *n, no_t *novoNo);
+
 /*  Remove o nó com valor 'c' da árvore. 
+    
+    Retorna o ponteiro para o nó raiz.
+    Retorna NULL se a árvore ficar vazia. */
+no_t *removeNo(no_t *n, no_t *noRaiz);
 
-    Retorna o ponteiro para o nó raiz. */
-no_t *removeNo(no_t *n, no_t *nRaiz);
+/*  Essa função realiza a rotação à esquerda.
+    
+    Retorna um ponteiro para o nó que foi trocado. */
+no_t *rotacaoEsq(no_t *n);
 
-/*  Imprime a travessia em ordem crescente. */
-void imprimeArvore(no_t *n, int nivel);
+/*  Essa função realiza a rotação à direita.
+
+    Retorna um ponteiro para o nó que foi trocado. */
+no_t *rotacaoDir(no_t *n);
+
+/*  Essa função corrige a altura dos nós de uma árvore recursivamente. */
+int corrigeAltura(no_t *n);
+
+/*  Essa função verifica qual lado da árvore está desbalanceado. Se o valor
+    for negativo e < -1, então a árvore está desbalanceada à esquerda. Já se
+    a diferença for positiva e > 1, então o desbalanceamento é à direita.
+    Caso esteja no intervalo [-1, 1], a árvore está balanceada.
+
+    Retorna o valor da diferença entre o a altura dos nós. */
+int verificaBalanceamento(no_t *n);
+
+/*  Essa função verifica qual vai ser o tipo de rotação.
+    blc é o parâmetro que indica qual lado da árvore está 
+    desbalanceado. 
+
+    Retorna 1 para rotação simples à esquerda.
+    Retorna 2 para rotação simples à direita.
+    Retorna 0 se não for nenhuma dessas. */
+int verificaRotacao(no_t *n, int blc);
+
+/*  Balanceia o nó atual da árvore.  */
+no_t *balanceiaArvore(no_t *n);
+
+/*  Essa função faz o balanceamento da árvore até o nó raiz,
+    a partir do nó 'n'.
+    
+    Retorna o ponteiro para a nova raiz (se ela for trocada). */
+no_t *balanceiaAteRaiz(no_t *n, no_t *raiz);
 
 /*  Insere o nó na árvore AVL. */
 no_t *insereNoAvl(no_t *n, int c);
@@ -57,5 +98,8 @@ no_t *insereNoAvl(no_t *n, int c);
 /* Remove o nó da árvore AVL, mantendo as propriedades da árvore. */
 no_t *removeNoAvl(no_t *n, no_t *noRaiz);
 
+/*  Imprime na saída padrão e em ordem crescente, as chaves
+    e o nível do seu respectivo nó separados por ','. */
+void imprimeNivelArvore(no_t *n, int nivel);
 
 #endif

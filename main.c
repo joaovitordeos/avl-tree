@@ -4,6 +4,8 @@
 #define INSERIR 'i'
 #define REMOVER 'r'
 
+#define NV_INI 0
+
 int main (int argc, char **argv){
     no_t *raiz;
     int chave;
@@ -20,15 +22,9 @@ int main (int argc, char **argv){
             if (op == REMOVER)  raiz = removeNoAvl(buscaNo(raiz, chave), raiz);
         }
 
-        if (raiz != NULL){
-           printf("Operacao %c, no: %d\n", op, chave);
-           if (raiz->esq && raiz->dir) printf("Raiz: %d, fDir: %d, fEsq: %d\n", raiz->chave, raiz->dir->chave, raiz->esq->chave);
-           else printf("Raiz: %d\n", raiz->chave);
-           imprimeArvore(raiz, 0);
-           printf("\n");
-        }
-
     }
+    
+    imprimeNivelArvore(raiz, 0);
 
     destroiArvore(raiz);
 
