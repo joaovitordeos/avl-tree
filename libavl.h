@@ -51,7 +51,7 @@ no_t *antecessorNo(no_t *n);
 no_t *removeNo(no_t *n, no_t *nRaiz);
 
 /*  Imprime a travessia em ordem crescente. */
-void imprimeArvore(no_t *n);
+void imprimeArvore(no_t *n, int nivel);
 
 /*  Insere o nó na árvore AVL. */
 no_t *insereNoAvl(no_t *n, int c);

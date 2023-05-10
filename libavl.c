@@ -6,6 +6,8 @@
 
 #include "libavl.h"
 
+#define max(x, y) (x>y?x:y) 
+
 /*  Cria uma struct no_t com o valor chave 'c'.
     
     Retorna um ponteiro para o o nó.
@@ -111,7 +113,7 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
     if ((n == noRaiz) && (n->esq == NULL) && (n->dir == NULL)){  // Se o nó a ser removido é único retorna NULL.
         free(n);
         return NULL;
-    }
+    }  
 
     if ((n->dir == NULL)){               // Se o nó não tiver o filho direito.
         if (n != noRaiz)                  
@@ -154,26 +156,34 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
 }
 
 /*  Imprime a travessia em ordem crescente. */
-void imprimeArvore(no_t *n){
+void imprimeArvore(no_t *n, int nivel){
     if (n != NULL){
-        imprimeArvore(n->esq);
-        if (n->pai != NULL) printf("No: %d, Pai: %d, Altura: %d\n", n->chave, n->pai->chave, n->altura);
-        else printf("No: %d, Pai: N/A, Altura: %d\n", n->chave, n->altura);
-        imprimeArvore(n->dir);
+        imprimeArvore(n->esq, nivel + 1);
+        if (n->pai != NULL) printf("No: %2d, Pai: %2d, Altura: %2d, Nivel: %2d\n", n->chave, n->pai->chave, n->altura, nivel);
+        else printf("No: %2d, Pai: N/A, Altura: %2d, Nivel: %2d\n", n->chave, n->altura, nivel);
+        imprimeArvore(n->dir, nivel + 1);
     }
+}
+
+/*  Essa função corrige a altura dos nós de uma árvore. */
+int corrigeAltura(no_t *n){
+    int aDir, aEsq;
+
+    if (n == NULL) return 0;
+
+    aDir = corrigeAltura(n->dir);
+    aEsq = corrigeAltura(n->esq);
+
+    n->altura = max(aDir, aEsq) + 1;
+
+    return n->altura;
 }
 
 /*  Insere o nó na árvore AVL. */
 no_t *insereNoAvl(no_t *n, int c){
-    no_t *nIn, *pai;
-    nIn = insereNo(n, c);
-    
-    nIn = buscaNo(n, c);
-    pai = nIn->pai;
-    while (pai != NULL){
-        pai->altura += 1;
-        pai = pai->pai;
-    }
+    insereNo(n, c);
+
+    corrigeAltura(n);
     
 
     return n;

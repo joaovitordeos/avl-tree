@@ -24,7 +24,7 @@ int main (int argc, char **argv){
            printf("Operacao %c, no: %d\n", op, chave);
            if (raiz->esq && raiz->dir) printf("Raiz: %d, fDir: %d, fEsq: %d\n", raiz->chave, raiz->dir->chave, raiz->esq->chave);
            else printf("Raiz: %d\n", raiz->chave);
-           imprimeArvore(raiz);
+           imprimeArvore(raiz, 0);
            printf("\n");
         }
 
