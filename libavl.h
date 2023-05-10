@@ -57,7 +57,7 @@ void imprimeArvore(no_t *n, int nivel);
 no_t *insereNoAvl(no_t *n, int c);
 
 /* Remove o nó da árvore AVL, mantendo as propriedades da árvore. */
-no_t *removeNoAvl(no_t *n, no_t *raiz);
+no_t *removeNoAvl(no_t *n, no_t *noRaiz);
 
 
 #endif

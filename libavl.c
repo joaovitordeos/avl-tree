@@ -303,6 +303,8 @@ no_t *balanceiaArvore(no_t *n){
     Retorna o ponteiro do último nó rotacionado. */
 no_t *balanceiaAteRaiz(no_t *n, no_t *raiz){
     no_t *proxPai;
+    if (n == NULL) return raiz;
+
     proxPai = n->pai;
 
     while (proxPai != raiz ){
@@ -331,38 +333,37 @@ no_t *insereNoAvl(no_t *n, int c){
 }
 
 /* Remove o nó da árvore AVL, mantendo as propriedades da árvore. */
-no_t *removeNoAvl(no_t *n, no_t *raiz){
-    no_t *a;
+no_t *removeNoAvl(no_t *n, no_t *noRaiz){
+    no_t *novaRaiz, *a, *paiN;
 
-    if (n->dir == NULL ){
-        a = n->esq;
+    if (n == NULL) 
+        return noRaiz;
 
-        raiz = removeNo(n, raiz);
+    paiN = n->pai;
 
-        if (a != NULL)
-            raiz = balanceiaAteRaiz(a, raiz);
 
-        raiz = balanceiaArvore(raiz);
 
-        corrigeAltura(raiz);
+    if (paiN != NULL){
+        novaRaiz = removeNo(n, noRaiz);
+
+        novaRaiz = balanceiaAteRaiz(paiN, novaRaiz);
+
+        novaRaiz = balanceiaArvore(novaRaiz);
+
+        corrigeAltura(novaRaiz);
     }
     else {
-        if (n->esq == NULL){
-            a = n->dir;
+        a = antecessorNo(n);
+        
+        paiN = a->esq;
 
-            raiz = removeNo(n, raiz);
-    
-            if (a != raiz)
-                raiz = balanceiaAteRaiz(a, raiz);
+        novaRaiz = removeNo(n, noRaiz);
 
-            raiz = balanceiaArvore(raiz);
+        novaRaiz = balanceiaAteRaiz(paiN, novaRaiz);
 
-            corrigeAltura(raiz);
-        }
-        else {
-            a = antecessorNo(n);
-        }
+        novaRaiz = balanceiaArvore(novaRaiz);
+
+        corrigeAltura(novaRaiz);
     }
-
-    return raiz;
+    return novaRaiz;
 }
