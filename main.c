@@ -15,7 +15,7 @@ int main (int argc, char **argv){
 
     while (fscanf(stdin, "%c %d", &op, &chave) != EOF){  // Lê as operações até o fim do arquivo
         
-        if (raiz == NULL)
+        if (raiz == NULL)                     // Se for uma raiz vazia, cria uma.
             raiz = criaNo(chave);
         else{ 
             if (op == INSERIR)  raiz = insereNoAvl(raiz, chave);
