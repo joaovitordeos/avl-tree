@@ -158,33 +158,54 @@ no_t *removeNo(no_t *n, no_t *noRaiz){
     return novaRaiz;
 }
 
-/*  Essa função realiza a rotação à esquerda. */
+/* Essa função realiza a rotação à esquerda. */
 no_t *rotacaoEsq(no_t *n){
-    no_t *t;
-    
-    t = n->dir;
+    if (n == NULL || n->dir == NULL) return n;
+
+    if (n->pai != NULL) {
+        if (n == n->pai->esq) {
+            n->pai->esq = n->dir;
+        } else {
+            n->pai->dir = n->dir;
+        }
+    }
+
+    no_t *t = n->dir;
     n->dir = t->esq;
+    t->esq = n;
+
     t->pai = n->pai;
     n->pai = t;
 
-    if (t->esq != NULL) t->esq->pai = n;
+    if (n->dir != NULL) n->dir->pai = n;
 
     return t;
 }
 
 /* Essa função realiza a rotação à direita. */
 no_t *rotacaoDir(no_t *n){
-    no_t *t;
+    if (n == NULL || n->esq == NULL) return n;
 
-    t = n->esq;
+    if (n->pai != NULL) {
+        if (n == n->pai->esq) {
+            n->pai->esq = n->esq;
+        } else {
+            n->pai->dir = n->esq;
+        }
+    }
+
+    no_t *t = n->esq;
     n->esq = t->dir;
+    t->dir = n;
+
     t->pai = n->pai;
     n->pai = t;
 
-    if (t->esq != NULL) t->esq->pai = n;
+    if (n->esq != NULL) n->esq->pai = n;
 
     return t;
 }
+
 
 /*  Imprime a travessia em ordem crescente. */
 void imprimeArvore(no_t *n, int nivel){
@@ -218,9 +239,9 @@ int verificaBalanceamento(no_t *n){
         return (n->dir->altura - n->esq->altura);
 
     if (n->dir == NULL)
-        return (n->dir->altura);
+        return (-1 * n->esq->altura);
 
-    return (-1 * n->esq->altura);
+    return (n->dir->altura);
 }
 
 /*  Essa função verifica qual vai ser o tipo de rotação.
@@ -234,13 +255,13 @@ int verificaRotacao(no_t *n, int blc){
     if (blc > 1){
         // Se o filho direito da raiz possuir o nó esquerdo nulo, ou o lado direito estiver mais alto
         // Retorna a rotação à esquerda.
-        if ((n->dir->esq == NULL) || ((n->dir->dir != NULL) && (n->dir->dir->altura > n->dir->esq->altura) ))
+        if ((n->dir->esq != NULL) && (n->dir->dir !=NULL) && (n->dir->dir->altura >= n->dir->esq->altura))
             return ROT_ESQ;
     }
     if (blc < -1){
         // Se o filho esquerdo da raiz possuir o nó direito nulo, ou o lado esquerdo estiver mais alto
         // Retorna a rotação à direita.
-        if ((n->esq->dir == NULL) || ((n->esq->esq != NULL) && (n->esq->esq->altura > n->esq->dir->altura)))
+        if ((n->esq->dir != NULL) && (n->esq->esq != NULL) && (n->esq->esq->altura >= n->esq->dir->altura) )
             return ROT_DIR; 
     }
     return 0;
@@ -276,13 +297,29 @@ no_t *balanceiaArvore(no_t *n){
     return n;
 }
 
+no_t *foo(no_t *n, no_t *raiz){
+    no_t *nPai;
+    nPai = n->pai;
+
+    while (nPai != NULL ){
+        nPai = balanceiaArvore(nPai);
+        nPai = nPai->pai;
+    }
+
+    return raiz;
+}
+
 /*  Insere o nó na árvore AVL. */
 no_t *insereNoAvl(no_t *n, int c){
+    no_t *nIn;
+
     insereNo(n, c);
+    nIn = buscaNo(n, c);
 
     corrigeAltura(n);
     
-    balanceiaArvore(n);
+    n = foo(nIn, n);
+    //n = balanceiaArvore(n);
 
     return n;
 }

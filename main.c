@@ -16,7 +16,7 @@ int main (int argc, char **argv){
         if (raiz == NULL)
             raiz = criaNo(chave);
         else{ 
-            if (op == INSERIR)  insereNoAvl(raiz, chave);
+            if (op == INSERIR)  raiz = insereNoAvl(raiz, chave);
             if (op == REMOVER)  raiz = removeNo(buscaNo(raiz, chave), raiz);
         }
 
