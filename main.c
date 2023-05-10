@@ -13,7 +13,7 @@ int main (int argc, char **argv){
 
     raiz = NULL;
 
-    while (fscanf(stdin, "%c %d", &op, &chave) != EOF){
+    while (fscanf(stdin, "%c %d", &op, &chave) != EOF){  // Lê as operações até o fim do arquivo
         
         if (raiz == NULL)
             raiz = criaNo(chave);
@@ -21,10 +21,10 @@ int main (int argc, char **argv){
             if (op == INSERIR)  raiz = insereNoAvl(raiz, chave);
             if (op == REMOVER)  raiz = removeNoAvl(buscaNo(raiz, chave), raiz);
         }
-
     }
     
-    imprimeNivelArvore(raiz, 0);
+    if (raiz != NULL)
+        imprimeNivelArvore(raiz, 0);
 
     destroiArvore(raiz);
 
