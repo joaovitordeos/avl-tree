@@ -10,8 +10,8 @@ int main (int argc, char **argv){
     char op;
 
     raiz = NULL;
-    scanf("%c %d", &op, &chave);
-    while (chave != 0){
+
+    while (fscanf(stdin, "%c %d", &op, &chave) != EOF){
         
         if (raiz == NULL)
             raiz = criaNo(chave);
@@ -28,7 +28,6 @@ int main (int argc, char **argv){
            printf("\n");
         }
 
-        scanf("%c %d", &op, &chave);
     }
 
     destroiArvore(raiz);

@@ -297,29 +297,35 @@ no_t *balanceiaArvore(no_t *n){
     return n;
 }
 
-no_t *foo(no_t *n, no_t *raiz){
-    no_t *nPai;
-    nPai = n->pai;
+/*  Essa função faz o balanceamento da árvore até um nó antes da raiz,
+    a partir do nó 'n'.
+    
+    Retorna o ponteiro do último nó rotacionado. */
+no_t *balanceiaAteRaiz(no_t *n, no_t *raiz){
+    no_t *proxPai;
+    proxPai = n->pai;
 
-    while (nPai != NULL ){
-        nPai = balanceiaArvore(nPai);
-        nPai = nPai->pai;
+    while (proxPai != raiz ){
+        corrigeAltura(raiz);
+        proxPai = balanceiaArvore(proxPai);
+
+        proxPai = proxPai->pai;
     }
 
-    return raiz;
+
+    return proxPai;
 }
 
-/*  Insere o nó na árvore AVL. */
+/*  Insere o nó na árvore AVL, mantendo as propriedades da árvore. */
 no_t *insereNoAvl(no_t *n, int c){
-    no_t *nIn;
 
     insereNo(n, c);
-    nIn = buscaNo(n, c);
 
     corrigeAltura(n);
-    
-    n = foo(nIn, n);
-    //n = balanceiaArvore(n);
+
+    n = balanceiaAteRaiz(buscaNo(n, c), n);
+
+    n = balanceiaArvore(n);
 
     return n;
 }
